@@ -51,18 +51,20 @@ function load_mailbox(mailbox) {
           sender_recipients = element.recipients;
         }
         if (mailbox == "inbox") {
-          if (element.read) is_read = "read";
+          if (element.read) 
+            is_read = "read";
           else is_read = "";
         } else is_read = "";
+
         var item = document.createElement("div");
         item.className = `card   ${is_read} my-1 items`;
 
-        item.innerHTML = `<div class="card-body" id="item-${element.id}">
-        
+        item.innerHTML = 
+        `<div class="card-body" id="item-${element.id}">
         ${element.subject} | ${sender_recipients} | ${element.timestamp}
         <br>
-        ${element.body.slice(0, 100)}
       </div>`;
+
         document.querySelector("#emails-view").appendChild(item);
         item.addEventListener("click", () => {
           show_mail(element.id, mailbox);
@@ -75,29 +77,36 @@ function show_mail(id, mailbox) {
   fetch(`/emails/${id}`)
     .then((response) => response.json())
     .then((email) => {
-      // Print email
-      // console.log(email);
       document.querySelector("#emails-view").innerHTML = "";
       var item = document.createElement("div");
       item.className = `card`;
-      item.innerHTML = `<div class="card-body" style="white-space: pre-wrap;">
-  Sender: ${email.sender}
-  Recipients: ${email.recipients}
-  Subject: ${email.subject}
-  Time: ${email.timestamp}
-  <br>${email.body}
+      
+      item.innerHTML = 
+      `<div class="card-body" style="white-space: pre-wrap;">
+      Sender: ${email.sender}
+      Recipients: ${email.recipients}
+      Subject: ${email.subject}
+      Time: ${email.timestamp}
+      <br>${email.body}
       </div>`;
+
       document.querySelector("#emails-view").appendChild(item);
-      if (mailbox == "sent") return;
+      if (mailbox == "sent") 
+        return;
       let archive = document.createElement("btn");
       archive.className = `btn btn-outline-info my-2`;
       archive.addEventListener("click", () => {
         toggle_archive(id, email.archived);
-        if (archive.innerText == "Archive") archive.innerText = "Unarchive";
-        else archive.innerText = "Archive";
+        if (archive.innerText == "Archive") 
+          archive.innerText = "Unarchive";
+        else 
+          archive.innerText = "Archive";
       });
-      if (!email.archived) archive.textContent = "Archive";
-      else archive.textContent = "Unarchive";
+      if (!email.archived) 
+        archive.textContent = "Archive";
+      else 
+        archive.textContent = "Unarchive";
+        
       document.querySelector("#emails-view").appendChild(archive);
 
       let reply = document.createElement("btn");
@@ -131,7 +140,8 @@ function make_read(id) {
 
 function reply_mail(sender, subject, body, timestamp) {
   compose_email();
-  if (!/^Re:/.test(subject)) subject = `Re: ${subject}`;
+  if (!/^Re:/.test(subject)) 
+    subject = `Re: ${subject}`;
   document.querySelector("#compose-recipients").value = sender;
   document.querySelector("#compose-subject").value = subject;
 
